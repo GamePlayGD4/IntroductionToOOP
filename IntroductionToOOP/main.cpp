@@ -56,11 +56,12 @@ public:
 		cout << "Destructor:\t\t" << this << endl;
 	}
 	//		Operators:
-	void operator=(const Point& other)
+	Point operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
 		cout << "CopyAssignment:\t\t" << this << endl;
+		return *this;
 	}
 
 	//		Methods:
@@ -157,13 +158,15 @@ void main()
 
 #endif // CONSTRUCTORS_CHECK
 
-#ifdef ASSIGNMENT CHECK
+#ifdef ASSIGNMENT_CHECK
 	int a, b, c;
 	a = b = c = 0;
 	cout << a << tab << b << tab << c << endl;
 
 	Point A, B, C;
+	cout << delimiter;
 	A = B = C = Point(2, 3);
+	cout << delimiter;
 	A.print();
 	B.print();
 	C.print();
