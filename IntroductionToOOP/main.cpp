@@ -56,7 +56,7 @@ public:
 		cout << "Destructor:\t\t" << this << endl;
 	}
 	//		Operators:
-	Point operator=(const Point& other)
+	Point& operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
@@ -86,12 +86,20 @@ double distance(const Point& A, const Point& B)
 	return distance;
 }
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
 
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
 //#define FOR_COUNTER_LIFETIME
 //#define CONSTRUCTORS_CHECK
-#define ASSIGNMENT_CHECK
+//#define ASSIGNMENT_CHECK
+#define OPERATORS_CHECK
 
 void main()
 {
@@ -171,6 +179,14 @@ void main()
 	B.print();
 	C.print();
 #endif // ASSIGNMENT CHECK
+
+#ifdef OPERATORS_CHECK
+	Point A(2, 3);
+	Point B(7, 8);
+	Point C = A + B;
+	C.print();
+#endif // OPERATORS_CHECK
+
 
 
 }
