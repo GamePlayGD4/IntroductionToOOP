@@ -113,6 +113,17 @@ public:
 		this->integer++;
 		return old;
 	}
+	Fraction& operator--() // prefix
+	{
+		this->integer--;
+		return *this;
+	}
+	Fraction operator--(int) // postfix
+	{
+		Fraction old = *this;
+		this->integer--;
+		return old;
+	}
 	// methods:
 	Fraction& to_improper()
 	{
@@ -279,5 +290,7 @@ void main()
 
 	Fraction A(2, 3, 4);
 	cout << A << endl;
+	cout << A-- << endl;
+	cout << --A << endl;
 
 }
