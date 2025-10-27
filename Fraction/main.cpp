@@ -207,7 +207,31 @@ bool operator==(Fraction left, Fraction right)
 	right.to_improper();
 	return left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator();
 }
-
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return!(left == right);
+}
+bool operator > (Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() > right.get_numerator() * left.get_denominator();
+}
+bool operator < (Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() < right.get_numerator() * left.get_denominator();
+}
+bool operator >=(const Fraction& left, const Fraction& right)
+{
+	return !(left < right);
+	//return left > right || left == right;
+}
+bool operator <= (const Fraction& left, Fraction& right)
+{
+	return !(left > right);
+}
 std::ostream& operator<<(std::ostream& os, const Fraction& obj)
 {
 	if (obj.get_integer())os << obj.get_integer();
@@ -286,11 +310,10 @@ void main()
 
 #endif // INCREMENTO_DECREMENTO
 
-	//cout << (Fraction(1, 2) == Fraction(5, 11)) << endl;
+	cout << (Fraction(1, 3) >= Fraction(5, 11)) << endl;
 
 	Fraction A(2, 3, 4);
 	cout << A << endl;
-	cout << A-- << endl;
-	cout << --A << endl;
+
 
 }
