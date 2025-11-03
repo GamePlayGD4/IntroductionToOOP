@@ -51,12 +51,21 @@ public:
 		denominator = 1;
 		cout << "DefaultConstructor:" << this << endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
 		cout << "SingleArgumentConstructor:\t" << this << endl;
+	}
+	explicit Fraction(double decimal)
+	{
+		decimal += 1e-10;
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9;
+		numerator = decimal * denominator;
+		reduce();
 	}
 	Fraction(int numerator, int denominator)
 	{
@@ -125,6 +134,17 @@ public:
 		this->integer--;
 		return old;
 	}
+
+	// type-cast-operators:
+	explicit operator int()const
+	{
+		return integer + numerator / denominator;
+	}
+	explicit operator double()const
+	{
+		return integer + double(numerator) / double(denominator);
+	}
+
 	// methods:
 	Fraction& to_improper()
 	{
@@ -150,6 +170,7 @@ public:
 		int more, less, rest = 0;
 		if (numerator > denominator)more = numerator, less = denominator;
 		else less = numerator, more = denominator;
+		if (less == 0) return *this;
 		do
 		{
 			rest = more % less;
@@ -285,6 +306,8 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define COMPOUND_ASSIGNMENTS_CHECK
 //#define INCREMENTO_DECREMENTO
 //#define STREAMS_CHECK_1
+//#define STREAMS_CHECK_2
+//#define HOME_WORK
 
 void main()
 {
@@ -356,9 +379,35 @@ void main()
 	cout << A << endl;
 #endif // STREAMS_CHECK_1
 
+#ifdef STREAMS_CHECK_2
 	Fraction A, B, C;
 	cout << "¬ведите 3 простых дроби: ";
 	cin >> A >> B >> C;
 	cout << A << tab << B << tab << C << endl;
+
+#endif // STREAMS_CHECK_2
+	
+
+#ifdef HOME_WORK
+	//Fraction A = (Fraction)3.3333;
+	int a(2);
+	cout << a << endl;
+	Fraction A(3.3333);
+	cout << A << endl;
+
+	//Fraction B = (Fraction)8;
+	double b{3};
+	cout << b << endl;
+	Fraction B{8};
+	cout << B << endl;
+
+#endif // HOME_WORK
+
+	Fraction A(2, 33, 4);
+	cout << A << endl;
+	int a = (int)A;
+	cout << a << endl;	
+	double b = (double)A;
+	cout << b << endl;
 
 }	
