@@ -109,6 +109,27 @@ bool IsPalindrome(const char str[])
 	return true;
 }
 
+bool is_int_number(const char str[])
+{
+	for (int i = 0; str[i]; i++)
+	{
+		if (str[i] < '0' || str[i] > '9')return false;
+	}
+	return true;
+}
+
+bool to_int_number(const char str[])
+{
+	if (!is_int_number(str))return INT_MIN;
+	int integer = 0;
+	for (int i = 0; str[i]; i++)
+	{
+		integer *= 10;
+		integer += str[i] - '0';
+	}
+	return integer;
+}
+
 bool is_bin_number(const char str[])
 {
 	for (int i = 0; str[i]; i++)
@@ -181,6 +202,35 @@ bool isMACaddress(const char str[])
 	return true;
 }
 
+bool isIPaddress(const char str[])
+{
+	if (strlen(str) < 7 || strlen(str) > 15)return false;
+	int start = 0;
+	//int stop = 0;
+	int points_count = 0;
+	for (int i = 0; str[i]; i++)
+	{
+		if (str[i] == '.')
+		{
+			if (i - start > 3)return false;
+			char sz_byte[4] = {};
+			int i_byte = 0;
+			int k = 0;
+			for (int j = start; j < i; j++)
+			{
+				sz_byte[k++] = str[j];
+			}
+			i_byte = to_int_number(sz_byte);
+			if (i_byte > 255)return false;
+
+
+			start = i + 1;
+			points_count++;
+		}
+	}
+	return points_count == 3 ? true : false;
+}
+
 //#define LINES_BASICS_1
 //#define LINES_BASICS_2
 //#define NUMERICS
@@ -230,5 +280,7 @@ void main()
 #endif // numerics
 
 	cout << isMACaddress("2C-F0-5D-71-AD-16") << endl;
+	cout << isIPaddress("192.168.0.1") << endl;
+
 
 }
