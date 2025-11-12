@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <Windows.h>
 using namespace std;
@@ -65,8 +66,107 @@ char* ToLower(char str[])
 	return str;
 }
 
+char* Shrink(char str[])
+{
+	for (int i = 0; str[i]; i++)
+	{
+		while(str[i] == ' ' && str[i + i] == ' ')
+		{
+			for (int j = i + 1; str[j]; j++)str[j] = str[j + 1];
+		}
+	}
+	return str;
+}
+char* RemoveSymbol(char str[], char symbol = ' ')
+{
+	for (int i = 0; str[i]; i++)
+	{
+		while (str[i] == symbol)
+		{
+			for (int j = i; str[j]; j++) str[j] = str[j + 1];
+		}
+	}
+	return str;
+}
+bool IsPalindrome(const char str[])
+{
+	int size = StringLength(str);
+	char* buffer = new char[size + 1] {};
+	strcpy(buffer, str); 
+	//strcpy(dst, src); - Эта функция копирует содержимое строки 'src' (Source - Источник) в строку 'dst' (Destination - получатель)
+	ToLower(buffer);
+	RemoveSymbol(buffer);
+	size = StringLength(buffer);
+	for (int i = 0; i < size / 2; i++)
+	{
+		if (buffer[i] != buffer[size - 1 - i])
+		{
+			delete[] buffer;
+			return false;
+		}
+	}
+	delete[] buffer;
+	return true;
+}
 
+bool is_bin_number(const char str[])
+{
+	for (int i = 0; str[i]; i++)
+	{
+		if (str[i] != '0' && str[i] != '1' && str[i] != ' ')return false;
+	}
+	return true;
+}
+
+int bin_to_dec(const char str[])
+{
+	int decimal = 0;
+	int weight = 1;
+	int length = StringLength(str);
+	for (int i = length - 1; i >= 0; i--)
+	{
+		if (str[i] == ' ')continue;
+		decimal += (str[i] - '0') * weight;
+		weight *= 2;
+	}
+	return decimal;
+}
+
+bool is_hex_number(const char str[])
+{
+	bool prefix = false;
+	if (str[0] == '0' && str[1] == 'x')prefix = true;
+	for (int i = prefix ? 2 : 0; str[i]; i++)
+	{
+		if (
+			!(str[i] >= '0' && str[i] <= '9') &&
+			!(str[i] >= 'A' && str[i] <= 'F') &&
+			!(str[i] >= 'a' && str[i] <= 'f')
+			) return false;
+	}
+	return true;
+}
+
+int hex_to_dec(const char str[])
+{
+	int decimal = 0;
+	int weight = 1;
+	int length = StringLength(str);
+	bool prefix = false;
+	if (str[0] == '0' && str[1] == 'x')prefix = true;
+	for (int i = length - 1; i >= (prefix ? 2 : 0); i--)
+	{
+		int digit;
+		if (str[i] >= '0' && str[i] <= '9')digit = str[i] - 48;
+		if (str[i] >= 'A' && str[i] <= 'F')digit = str[i] - 55;
+		if (str[i] >= 'a' && str[i] <= 'f')digit = str[i] - 87;
+		decimal += digit * weight;
+		weight *= 16;
+	}
+	return decimal;
+}
 //#define LINES_BASICS_1
+//#define LINES_BASICS_2
 
 void main()
 {
@@ -80,9 +180,12 @@ void main()
 	cout << sizeof(str) << endl;
 #endif // LINES_BASICS_1
 
+#ifdef LINES_BASICS_2
 	const int SIZE = 256;
-	char str[SIZE] = {};
-	cout << "Введите строку: ";
+	//char str[SIZE] = "Хорошо	живёт	  на	свете	Винни	  Пух";
+	char str[SIZE] = "Аргентина манит негра";
+
+	//cout << "Введите строку: ";
 	SetConsoleCP(1251);
 	//cin >> str;
 	//cin.getline(str, SIZE);
@@ -94,4 +197,16 @@ void main()
 	cout << str << endl;*/
 	cout << ToUpper(str) << endl;
 	cout << ToLower(str) << endl;
+	cout << Shrink(str) << endl;
+	cout << "Строка " << (IsPalindrome(str) ? "" : "не ") << "является палиндромом" << endl;
+#endif // LINES_BASICS_2
+
+	const int SIZE = 48;
+	char str[SIZE] = "0xC8";
+
+	cout << "Строка " << (is_bin_number(str) ? "" : "не ") << "является двоичным числом" << endl;
+	cout << str << "(bin) = " << bin_to_dec(str) << "(dec)" << endl;
+
+	cout << "Строка " << (is_hex_number(str) ? "" : "не ") << "является шестнадцатиричным числом" << endl;
+	cout << str << "(hex) = " << hex_to_dec(str) << "(dec)" << endl;
 }
