@@ -231,6 +231,23 @@ bool isIPaddress(const char str[])
 	return points_count == 3 ? true : false;
 }
 
+bool isIPaddressTok(const char str[])
+{
+	int size = strlen(str);
+	if (size < 7 || size > 15)return false;
+	char* buffer = new char[size + 1] {};
+	strcpy(buffer, str);
+	int n = 0;
+	int bytes[4] = {};
+	for (char* pch = strtok(buffer, "."); pch; pch = strtok(NULL, "."))
+		bytes[n++] = std::atoi(pch);
+	delete[] buffer;
+	if (n < 4) return false;
+	for (int i = 0; i < n; i++)
+		if (bytes[i] > 255)return false;
+	return true;
+}
+
 //#define LINES_BASICS_1
 //#define LINES_BASICS_2
 //#define NUMERICS
@@ -281,6 +298,7 @@ void main()
 
 	cout << isMACaddress("2C-F0-5D-71-AD-16") << endl;
 	cout << isIPaddress("192.168.0.1") << endl;
+	cout << isIPaddressTok("192.168.0.1") << endl;
 
 
 }
