@@ -11,7 +11,15 @@ class String
 	int size;
 	char* str;
 public:
+	int get_size()const
+	{
+		return size;
+	}
 	const char* get_str()const
+	{
+		return str;
+	}
+	char* get_str()
 	{
 		return str;
 	}
@@ -53,7 +61,6 @@ public:
 		cout << "CopyAssighment:\t" << this << endl;
 		return *this;
 	}
-
 	// methods
 	void print()const
 	{
@@ -62,13 +69,23 @@ public:
 	}
 };
 
+String operator+(const String& left, const String& right)
+{
+	String result(left.get_size() + right.get_size() - 1);
+	for (int i = 0; i < left.get_size(); i++)
+		result.get_str()[i] = left.get_str()[i];
+	for (int i = 0; i < right.get_size(); i++)
+		result.get_str()[i + left.get_size() - 1] = right.get_str()[i];
+	return result;
+}
+
 std::ostream& operator<<(std::ostream& os, const String& obj)
 {
 	return os << obj.get_str();
 }
 
-#define BASE_CHECK
-//#define OPERATORS_CHECK
+//#define BASE_CHECK
+#define OPERATORS_CHECK
 
 void main()
 {
