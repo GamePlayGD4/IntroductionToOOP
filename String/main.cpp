@@ -41,7 +41,16 @@ public:
 		this->size = other.size;
 		this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
-		cout << "CopyConstructor:\t" << this << endl;
+		cout << "CopyConstructor:" << this << endl;
+	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+
+		other.size = 0;
+		other.str = nullptr;
+		cout << "MoveConstructor:" << this << endl;
 	}
 	~String()
 	{
@@ -120,7 +129,10 @@ void main()
 #ifdef OPERATORS_CHECK
 	String str1 = "Hello";
 	String str2 = "World";
+	cout << delimiter << endl;
 	String str3 = str1 + str2;
+	cout << delimiter << endl;
+
 	cout << str3 << endl;
 #endif // OPERATORS_CHECK
 
