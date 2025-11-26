@@ -70,6 +70,20 @@ public:
 		cout << "CopyAssighment:\t" << this << endl;
 		return *this;
 	}
+	String& operator=(String&& other)
+	{
+		if (this == &other)return *this;
+		delete[] this->str;
+
+		this->size = other.size;
+		this->str = other.str;
+
+		other.size = 0;
+		other.str = nullptr;
+
+		cout << "MoveAssignment:\t" << this << endl;
+		return *this;
+	}
 	char operator[](int i)const
 	{
 		return str[i];
@@ -130,7 +144,9 @@ void main()
 	String str1 = "Hello";
 	String str2 = "World";
 	cout << delimiter << endl;
-	String str3 = str1 + str2;
+	//String str3 = str1 + str2; // MoveConstructor
+	String str3;
+	str3 = str1 + str2;			// MoveAssignment
 	cout << delimiter << endl;
 
 	cout << str3 << endl;
