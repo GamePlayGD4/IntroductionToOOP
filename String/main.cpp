@@ -117,7 +117,8 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 }
 
 //#define BASE_CHECK
-#define OPERATORS_CHECK
+//#define OPERATORS_CHECK
+#define CALLING_CONSTRUCTORS
 
 void main()
 {
@@ -152,5 +153,40 @@ void main()
 	cout << str3 << endl;
 #endif // OPERATORS_CHECK
 
+#ifdef CALLING_CONSTRUCTORS
+	String str1;		// default constructor
+	str1.print();
 
+	String str2(5);		// Single-argument Constructor int (explicit)
+	str2.print();
+
+	String str3 = "Hello"; // Single-argument Constructor 'char'
+	str3.print();
+
+	String str4();  //NOT default constructor
+	//str4().print(); 
+	String str5{};
+	str5.print();
+
+	String str6{ 7 };
+	str6.print();
+
+	String str7("World");
+	String str8("World");
+
+	String str9 = str3;
+	String str10(str9);
+	String str11{ str9 };
+
+	String str12 = str3 + str7;
+	str12.print();
+
+	String str13(str3 + str7);
+	str13.print();
+
+	String str14{ str3 + str7 };
+	str14.print();
+#endif // CALLING_CONSTRUCTORS
+
+	
 }
